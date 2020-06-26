@@ -7,9 +7,11 @@ package com.samith.employeems.dto;
  **/
 public class EmployeeFamilyDTO {
     private int familyMemberId;
+    private int employeeId;
     private String familyMemberName;
     private String contactNumber;
     private String memberType;
+
 
     @Override
     public String toString() {
@@ -19,6 +21,14 @@ public class EmployeeFamilyDTO {
                 ", contactNumber='" + contactNumber + '\'' +
                 ", memberType='" + memberType + '\'' +
                 '}';
+    }
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public int getFamilyMemberId() {

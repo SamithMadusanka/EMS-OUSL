@@ -1,6 +1,7 @@
 package com.samith.employeems.controller;
 
 import com.samith.employeems.dto.EmployeeDTO;
+import com.samith.employeems.dto.EmployeeFamilyDTO;
 import com.samith.employeems.service.EmployeeService;
 import com.samith.employeems.util.AbstractController;
 import org.slf4j.Logger;
@@ -55,6 +56,30 @@ public class EmployeeController extends AbstractController {
         EmployeeDTO byEmployeeId = employeeService.findByEmployeeId(employeeId);
         LOGGER.info("response  - findByEmployeeId | url - emp/findById | success");
         return sendSuccessResponse(byEmployeeId);
+    }
+
+    @PostMapping("/fam/save")
+    public ResponseEntity<?> saveEmployeeFamily(@RequestBody EmployeeFamilyDTO employeeFamilyDTO) {
+        LOGGER.info("request   - saveEmployeeFamily | url - emp/fam/save | payload : {}", employeeFamilyDTO);
+        employeeService.saveEmployeeFamily(employeeFamilyDTO);
+        LOGGER.info("response  - saveEmployeeFamily | url - emp/fam/save | success");
+        return sendSuccessResponse("Employee family detail saved successfully");
+    }
+
+    @PutMapping("/fam/update")
+    public ResponseEntity<?> updateEmployeeFamily(@RequestBody EmployeeFamilyDTO employeeFamilyDTO) {
+        LOGGER.info("request   - updateEmployee | url - emp/fam/update | payload : {}", employeeFamilyDTO);
+        employeeService.updateEmployeeFamily(employeeFamilyDTO);
+        LOGGER.info("response  - updateEmployee | url - emp/fam/update | success");
+        return sendSuccessResponse("Employee family detail updated successfully");
+    }
+
+    @DeleteMapping("/fam/remove")
+    public ResponseEntity<?> removeEmployeeFamily(@Param("employeeFamilyId") int employeeFamilyId) {
+        LOGGER.info("request   - removeEmployee | url - emp/fam/remove | employeeFamilyId : {}", employeeFamilyId);
+        employeeService.removeEmployeeFamily(employeeFamilyId);
+        LOGGER.info("response  - removeEmployee | url - emp/fam/remove | success");
+        return sendSuccessResponse("Employee removed successfully");
     }
 
 }

@@ -1,5 +1,7 @@
 package com.samith.employeems.dto;
 
+import java.util.List;
+
 /**
  * @author - Samith Madusanka on 2020-06-27
  * @project - employee-ms
@@ -9,6 +11,7 @@ public class EmployeeDTO {
     private String employeeName;
     private String email;
     private String contactNumber;
+    private List<EmployeeFamilyDTO> familyDetails;
 
     @Override
     public String toString() {
@@ -17,7 +20,16 @@ public class EmployeeDTO {
                 ", employeeName='" + employeeName + '\'' +
                 ", email='" + email + '\'' +
                 ", contactNumber='" + contactNumber + '\'' +
+                ", familyDetails=" + familyDetails +
                 '}';
+    }
+
+    public List<EmployeeFamilyDTO> getFamilyDetails() {
+        return familyDetails;
+    }
+
+    public void setFamilyDetails(List<EmployeeFamilyDTO> familyDetails) {
+        this.familyDetails = familyDetails;
     }
 
     public int getEmployeeId() {
