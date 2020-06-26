@@ -1,4 +1,4 @@
-package com.samith.employeems.model;
+package com.samith.employeems.model.employee;
 
 import javax.persistence.*;
 

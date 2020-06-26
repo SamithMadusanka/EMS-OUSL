@@ -1,7 +1,7 @@
 package com.samith.employeems.controller;
 
-import com.samith.employeems.dto.EmployeeDTO;
-import com.samith.employeems.dto.EmployeeFamilyDTO;
+import com.samith.employeems.dto.employee.EmployeeDTO;
+import com.samith.employeems.dto.employee.EmployeeFamilyDTO;
 import com.samith.employeems.service.EmployeeService;
 import com.samith.employeems.util.AbstractController;
 import org.slf4j.Logger;
@@ -68,18 +68,27 @@ public class EmployeeController extends AbstractController {
 
     @PutMapping("/fam/update")
     public ResponseEntity<?> updateEmployeeFamily(@RequestBody EmployeeFamilyDTO employeeFamilyDTO) {
-        LOGGER.info("request   - updateEmployee | url - emp/fam/update | payload : {}", employeeFamilyDTO);
+        LOGGER.info("request   - updateEmployeeFamily | url - emp/fam/update | payload : {}", employeeFamilyDTO);
         employeeService.updateEmployeeFamily(employeeFamilyDTO);
-        LOGGER.info("response  - updateEmployee | url - emp/fam/update | success");
+        LOGGER.info("response  - updateEmployeeFamily | url - emp/fam/update | success");
         return sendSuccessResponse("Employee family detail updated successfully");
     }
 
     @DeleteMapping("/fam/remove")
     public ResponseEntity<?> removeEmployeeFamily(@Param("employeeFamilyId") int employeeFamilyId) {
-        LOGGER.info("request   - removeEmployee | url - emp/fam/remove | employeeFamilyId : {}", employeeFamilyId);
+        LOGGER.info("request   - removeEmployeeFamily | url - emp/fam/remove | employeeFamilyId : {}", employeeFamilyId);
         employeeService.removeEmployeeFamily(employeeFamilyId);
-        LOGGER.info("response  - removeEmployee | url - emp/fam/remove | success");
-        return sendSuccessResponse("Employee removed successfully");
+        LOGGER.info("response  - removeEmployeeFamily | url - emp/fam/remove | success");
+        return sendSuccessResponse("Employee family detail removed successfully");
     }
+
+    @GetMapping("/assign_dpt")
+    public ResponseEntity<?> assignDepartment(@Param("employeeId") int employeeId, @Param("departmentId") int departmentId) {
+        LOGGER.info("request   - assignDepartment | url - emp/assign_dpt | employeeId : {} | departmentId : {}", employeeId, departmentId);
+        employeeService.assignDepartment(employeeId, departmentId);
+        LOGGER.info("response  - assignDepartment | url - emp/assign_dpt | success");
+        return sendSuccessResponse("Department assigning successful");
+    }
+
 
 }

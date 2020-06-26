@@ -1,35 +1,31 @@
-package com.samith.employeems.dto;
+package com.samith.employeems.model.employee;
 
-import java.util.List;
+import com.samith.employeems.model.department.Department;
+
+import javax.persistence.*;
 
 /**
  * @author - Samith Madusanka on 2020-06-27
  * @project - employee-ms
  **/
-public class EmployeeDTO {
+@Entity
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int employeeId;
     private String employeeName;
     private String email;
     private String contactNumber;
-    private List<EmployeeFamilyDTO> familyDetails;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "departmentId")
+    private Department department;
 
-    @Override
-    public String toString() {
-        return "EmployeeDTO{" +
-                "employeeId=" + employeeId +
-                ", employeeName='" + employeeName + '\'' +
-                ", email='" + email + '\'' +
-                ", contactNumber='" + contactNumber + '\'' +
-                ", familyDetails=" + familyDetails +
-                '}';
+    public Department getDepartment() {
+        return department;
     }
 
-    public List<EmployeeFamilyDTO> getFamilyDetails() {
-        return familyDetails;
-    }
-
-    public void setFamilyDetails(List<EmployeeFamilyDTO> familyDetails) {
-        this.familyDetails = familyDetails;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public int getEmployeeId() {

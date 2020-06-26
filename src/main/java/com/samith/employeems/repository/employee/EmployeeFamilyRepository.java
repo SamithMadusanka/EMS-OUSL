@@ -1,6 +1,6 @@
-package com.samith.employeems.repository;
+package com.samith.employeems.repository.employee;
 
-import com.samith.employeems.model.EmployeeFamily;
+import com.samith.employeems.model.employee.EmployeeFamily;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

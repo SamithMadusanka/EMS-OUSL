@@ -1,12 +1,14 @@
 package com.samith.employeems.service;
 
-import com.samith.employeems.dto.EmployeeDTO;
-import com.samith.employeems.dto.EmployeeFamilyDTO;
+import com.samith.employeems.dto.employee.EmployeeDTO;
+import com.samith.employeems.dto.employee.EmployeeFamilyDTO;
 import com.samith.employeems.exception.EmployeeMSException;
-import com.samith.employeems.model.Employee;
-import com.samith.employeems.model.EmployeeFamily;
-import com.samith.employeems.repository.EmployeeFamilyRepository;
-import com.samith.employeems.repository.EmployeeRepository;
+import com.samith.employeems.model.department.Department;
+import com.samith.employeems.model.employee.Employee;
+import com.samith.employeems.model.employee.EmployeeFamily;
+import com.samith.employeems.repository.department.DepartmentRepository;
+import com.samith.employeems.repository.employee.EmployeeFamilyRepository;
+import com.samith.employeems.repository.employee.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,10 +24,12 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeFamilyRepository employeeFamilyRepository;
+    private final DepartmentRepository departmentRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository, EmployeeFamilyRepository employeeFamilyRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, EmployeeFamilyRepository employeeFamilyRepository, DepartmentRepository departmentRepository) {
         this.employeeRepository = employeeRepository;
         this.employeeFamilyRepository = employeeFamilyRepository;
+        this.departmentRepository = departmentRepository;
     }
 
 
@@ -110,7 +114,7 @@ public class EmployeeService {
             employeeFamilyRepository.save(employeeFamily);
         } catch (EmployeeMSException e) {
             e.printStackTrace();
-            throw new EmployeeMSException("Employee updating failed");
+            throw new EmployeeMSException("Employee family updating failed");
         }
     }
 
@@ -121,7 +125,22 @@ public class EmployeeService {
             employeeFamilyRepository.delete(byId.get());
         } catch (EmployeeMSException e) {
             e.printStackTrace();
-            throw new EmployeeMSException("Employee removing failed");
+            throw new EmployeeMSException("Employee family detail removing failed");
+        }
+    }
+
+    public void assignDepartment(int employeeId, int departmentId) {
+        try {
+            Optional<Employee> byEmpId = employeeRepository.findById(employeeId);
+            if (!byEmpId.isPresent()) throw new EmployeeMSException("Employee not found");
+            Optional<Department> byDptId = departmentRepository.findById(departmentId);
+            if (!byDptId.isPresent()) throw new EmployeeMSException("Department not found");
+            Employee employee = byEmpId.get();
+            employee.setDepartment(byDptId.get());
+            employeeRepository.save(employee);
+        } catch (EmployeeMSException e) {
+            e.printStackTrace();
+            throw new EmployeeMSException("Department assigning attempt failed");
         }
     }
 
@@ -130,6 +149,8 @@ public class EmployeeService {
         employee.setEmployeeName(employeeDTO.getEmployeeName());
         employee.setContactNumber(employeeDTO.getContactNumber());
         employee.setEmail(employeeDTO.getEmail());
+        Optional<Department> byId = departmentRepository.findById(employeeDTO.getDepartmentId());
+        byId.ifPresent(employee::setDepartment);
         return employee;
     }
 
@@ -156,6 +177,10 @@ public class EmployeeService {
         employeeDTO.setEmployeeName(employee.getEmployeeName());
         employeeDTO.setContactNumber(employee.getContactNumber());
         employeeDTO.setEmail(employee.getEmail());
+        if (employee.getDepartment() != null) {
+            employeeDTO.setDepartmentId(employee.getDepartment().getDepartmentId());
+            employeeDTO.setDepartmentName(employee.getDepartment().getDepartmentName());
+        }
         return employeeDTO;
     }
 

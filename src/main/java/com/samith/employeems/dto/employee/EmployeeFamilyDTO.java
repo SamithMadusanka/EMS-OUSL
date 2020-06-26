@@ -1,4 +1,4 @@
-package com.samith.employeems.dto;
+package com.samith.employeems.dto.employee;
 
 
 /**
