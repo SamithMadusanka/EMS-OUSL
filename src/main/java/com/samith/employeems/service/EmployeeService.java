@@ -60,6 +60,8 @@ public class EmployeeService {
         try {
             Optional<Employee> byId = employeeRepository.findById(employeeId);
             if (!byId.isPresent()) throw new EmployeeMSException("Employee not found");
+            List<Employee> bySupervisorId = employeeRepository.findBySupervisorId(employeeId);
+            if (!bySupervisorId.isEmpty()) throw new EmployeeMSException("Supervisor. Cannot remove employee");
             List<EmployeeFamily> byEmployeeId = employeeFamilyRepository.findByEmployeeId(employeeId);
             if (!byEmployeeId.isEmpty()) {
                 employeeFamilyRepository.deleteAll(byEmployeeId);
@@ -149,8 +151,11 @@ public class EmployeeService {
         employee.setEmployeeName(employeeDTO.getEmployeeName());
         employee.setContactNumber(employeeDTO.getContactNumber());
         employee.setEmail(employeeDTO.getEmail());
+        employee.setSalary(employeeDTO.getSalary());
         Optional<Department> byId = departmentRepository.findById(employeeDTO.getDepartmentId());
         byId.ifPresent(employee::setDepartment);
+        Optional<Employee> byId1 = employeeRepository.findById(employeeDTO.getSupervisorId());
+        byId1.ifPresent(employee::setSupervisor);
         return employee;
     }
 
@@ -177,9 +182,14 @@ public class EmployeeService {
         employeeDTO.setEmployeeName(employee.getEmployeeName());
         employeeDTO.setContactNumber(employee.getContactNumber());
         employeeDTO.setEmail(employee.getEmail());
+        employeeDTO.setSalary(employee.getSalary());
         if (employee.getDepartment() != null) {
             employeeDTO.setDepartmentId(employee.getDepartment().getDepartmentId());
             employeeDTO.setDepartmentName(employee.getDepartment().getDepartmentName());
+        }
+        if (employee.getSupervisor() != null) {
+            employeeDTO.setSupervisorId(employee.getSupervisor().getEmployeeId());
+            employeeDTO.setSupervisorName(employee.getSupervisor().getEmployeeName());
         }
         return employeeDTO;
     }

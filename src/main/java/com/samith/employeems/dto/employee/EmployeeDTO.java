@@ -1,7 +1,5 @@
 package com.samith.employeems.dto.employee;
 
-import com.samith.employeems.dto.department.DepartmentDTO;
-
 import java.util.List;
 
 /**
@@ -13,9 +11,36 @@ public class EmployeeDTO {
     private String employeeName;
     private String email;
     private String contactNumber;
+    private double salary;
     private int departmentId;
     private String departmentName;
+    private int supervisorId;
+    private String supervisorName;
     private List<EmployeeFamilyDTO> familyDetails;
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public int getSupervisorId() {
+        return supervisorId;
+    }
+
+    public void setSupervisorId(int supervisorId) {
+        this.supervisorId = supervisorId;
+    }
+
+    public String getSupervisorName() {
+        return supervisorName;
+    }
+
+    public void setSupervisorName(String supervisorName) {
+        this.supervisorName = supervisorName;
+    }
 
     @Override
     public String toString() {

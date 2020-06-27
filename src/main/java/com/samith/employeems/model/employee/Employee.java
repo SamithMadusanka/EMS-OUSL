@@ -16,12 +16,32 @@ public class Employee {
     private String employeeName;
     private String email;
     private String contactNumber;
+    private double salary;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departmentId")
     private Department department;
+    @ManyToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name="supervisorId")
+    private Employee supervisor;
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
 
     public Department getDepartment() {
         return department;
+    }
+
+    public Employee getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(Employee supervisor) {
+        this.supervisor = supervisor;
     }
 
     public void setDepartment(Department department) {
